@@ -51,12 +51,49 @@ class Chip8:
         self.decode_opcode(opcode)
 
     def decode_opcode(self, opcode):
-        if opcode == 0x00E0:
+        """Decode and execute an opcode."""
+
+        first_nibble = (opcode & 0xF000) >> 12
+        x = (opcode & 0x0F00) >> 8
+        y = (opcode & 0x00F0) >> 4
+        n = opcode & 0x000F
+        nn = opcode & 0x00FF
+        nnn = opcode & 0x0FFF
+
+        if opcode == 0x00E0:  # CLS - Clear the screen
             self.display.fill(0)
-        elif opcode == 0x00EE:
+
+        elif opcode == 0x00EE:  # RET - Return from subroutine
             self.PC = self.stack.pop()
+
+        elif first_nibble == 0x1:  # JP addr - Jump to address NNN
+            self.PC = nnn
+
+        elif first_nibble == 0x2:  # CALL addr - Call subroutine at NNN
+            self.stack.append(self.PC)
+            self.PC = nnn
+
+        elif first_nibble == 0x3:  # SE Vx, byte - Skip next if Vx == NN
+            if self.V[x] == nn:
+                self.PC += 2
+
+        elif first_nibble == 0x4:  # SNE Vx, byte - Skip next if Vx != NN
+            if self.V[x] != nn:
+                self.PC += 2
+
+        elif first_nibble == 0x5 and n == 0:  # SE Vx, Vy - Skip next if Vx == Vy
+            if self.V[x] == self.V[y]:
+                self.PC += 2
+
+        elif first_nibble == 0x6:  # LD Vx, byte - Load NN into Vx
+            self.V[x] = nn
+
+        elif first_nibble == 0x7:  # ADD Vx, byte - Add NN to Vx
+            self.V[x] = (self.V[x] + nn) & 0xFF  # Ensure it stays within 8 bits
+
         else:
             print(f"Unknown opcode: {opcode:04X}")
+
 
     def update_timers(self):
         if self.delay_timer > 0:
