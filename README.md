@@ -1,5 +1,3 @@
-Here you go! Copy and paste this directly into your `README.md` file:  
-
 ```md
 # CHIP-8 Emulator  
 A simple CHIP-8 emulator written in Python.  
@@ -41,11 +39,4 @@ A simple CHIP-8 emulator written in Python.
 
 ## 🤝 Contributing  
 Feel free to fork this repo and submit pull requests!  
-```
 
-Once added, commit and push:  
-```sh
-git add README.md  
-git commit -m "Added README with project details"  
-git push origin main  
-```
