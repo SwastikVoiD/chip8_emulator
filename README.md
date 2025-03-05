@@ -39,4 +39,4 @@ A simple CHIP-8 emulator written in Python.
 
 ## 🤝 Contributing  
 Feel free to fork this repo and submit pull requests!  
-```
+
