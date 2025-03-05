@@ -1,5 +1,3 @@
-Here you go! Copy and paste this directly into your `README.md` file:  
-
 ```md
 # CHIP-8 Emulator  
 A simple CHIP-8 emulator written in Python.  
